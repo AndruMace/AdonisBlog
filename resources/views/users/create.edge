@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Add a new user </title>
+</head>
+<body>
+  <form
+    action="{{ route('UsersController.store') }}"
+    enctype="multipart/form-data"
+    method="POST"
+  >
+    <div>
+      <p>
+        <label for="email"> Email </label>
+      </p>
+      <input type="text" name="email">
+      @if(flashMessages.has('errors.email'))
+        {{ flashMessages.get('errors.email') }}
+      @endif
+    </div>
+
+    <div>
+      <p>
+        <label for="avatar"> Upload user avatar </label>
+      </p>
+      <input type="file" name="avatar">
+      @if(flashMessages.has('errors.avatar'))
+        {{ flashMessages.get('errors.avatar') }}
+      @endif
+    </div>
+
+    <hr>
+
+    <div>
+      <button type="submit"> Add User </button>
+    </div>
+  </form>
+</body>
+</html>

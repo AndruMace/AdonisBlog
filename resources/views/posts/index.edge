@@ -1,0 +1,13 @@
+@layout('layouts/master')
+
+@section('main')
+  <main>
+    @each(post in posts)
+      <article>
+        <h2>
+          <a href="/"> {{ post.title }} </a>
+        </h2>
+      </article>
+    @endeach
+  </main>
+@endsection

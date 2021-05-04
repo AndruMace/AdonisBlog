@@ -1,0 +1,36 @@
+<head>
+  <meta charset="UTF-8">
+  <title> Create a new blog post </title>
+</head>
+<body>
+  @if(flashMessages.has('success'))
+    <p>{{ flashMessages.get('success') }}</p>
+  @endif
+
+  <form action="{{ route('PostsController.store') }}" method="POST">
+    <div>
+      <p>
+        <label for="title"> Post title </label>
+      </p>
+      <input type="text" name="title" value="{{ flashMessages.get('title') || '' }}" />
+      @if(flashMessages.has('errors.title'))
+        {{ flashMessages.get('errors.title') }}
+      @endif
+    </div>
+
+    <div>
+      <p>
+        <label for="body"> Post body </label>
+      </p>
+      <textarea name="body" cols="30" rows="10">{{ flashMessages.get('body') || '' }}</textarea>
+      @if(flashMessages.has('errors.body'))
+        {{ flashMessages.get('errors.body') }}
+      @endif
+    </div>
+
+    <div>
+      <button type="submit"> Create Post </button>
+    </div>
+  </form>
+</body>
+</html>
