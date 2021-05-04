@@ -20,10 +20,16 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ session, view }) => {
-  return view.render('welcome', {
-    userLanguage: session.get('userLanguage'),
-  })
+// Route.get('/', async ({ session, view }) => {
+//   return view.render('welcome', {
+//     userLanguage: session.get('userLanguage'),
+//   })
+// })
+
+Route.get('/', async ({ request }) => {
+  return request.country
+    ? `Your country is ${request.country}`
+    : 'Unable to detect country'
 })
 
 Route.get('/language/:name', async ({ session, params, response }) => {
@@ -44,27 +50,39 @@ Route.get('users', 'UsersController.index')
 Route.on('users/create').render('users/create')
 Route.post('users', 'UsersController.store')
 
-Route.get('/posts', async ({ view }) => {
-  const posts = [
-    {
-      id: 1,
-      title: 'Getting Started with AdonisJS',
-      body: '',
-    },
-    {
-      id: 2,
-      title: 'Covering Basics of Lucid ORM',
-      body: '',
-    },
-    {
-      id: 3,
-      title: 'Understanding Build Process',
-      body: '',
-    }
-  ]
+// Route.get('/posts', async ({ view }) => {
+//   const posts = [
+//     {
+//       id: 1,
+//       title: 'Getting Started with AdonisJS',
+//       body: '',
+//     },
+//     {
+//       id: 2,
+//       title: 'Covering Basics of Lucid ORM',
+//       body: '',
+//     },
+//     {
+//       id: 3,
+//       title: 'Understanding Build Process',
+//       body: '',
+//     }
+//   ]
 
-  return view.render('posts/index', { posts })
-})
+//   return view.render('posts/index', { posts })
+// })
+
+Route
+  .get('posts', async () => {
+    return 'List posts'
+  })
+  .middleware('acl:user,moderator')
+
+Route
+  .get('subscribers', async () => {
+    return 'List subscribers'
+  })
+  .middleware('acl:moderator,admin')
 
 Route.get('posts/create', 'PostsController.create')
 Route.post('posts', 'PostsController.store')
