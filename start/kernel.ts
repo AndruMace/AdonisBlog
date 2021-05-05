@@ -44,4 +44,5 @@ Server.middleware.register([
 Server.middleware.registerNamed({
   sample: 'App/Middleware/Sample',
   acl: 'App/Middleware/Acl',
+  auth: 'App/Middleware/Auth',
 })

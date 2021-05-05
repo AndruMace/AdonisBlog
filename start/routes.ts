@@ -98,3 +98,35 @@ Route
   .except(['update', 'destroy']) 
 
 Route.resource('posts.comments', 'CommentsController')
+
+
+Route.get('/verify/:email', async ({ request }) => {
+  if (request.hasValidSignature()) {
+    return 'Marking email as verified'
+  }
+
+  return 'Url is not valid'
+}).as('verifyEmail')
+
+Route.get('/get_verification_link', async () => {
+  const signedUrl = Route.makeSignedUrl('verifyEmail', {
+    params: {
+      email: 'foo@bar.com',
+    },
+    expiresIn: '30m',
+  })
+
+  return `<h1>Click <a href="${signedUrl}">here</a> to verify email address</h1>`
+})
+
+Route.on('register').render('register')
+Route.post('register', 'AuthController.register')
+
+Route.get('/dashboard', async ({ auth }) => {
+  const user = await auth.authenticate()
+  return `Hello user! Your email address is ${user.email}`
+}).middleware('auth')
+
+
+Route.on('login').render('login')
+Route.post('/login', 'AuthController.login')
